@@ -1,0 +1,24 @@
+version: '3'
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment: 
+            - DJANGO_DB_NAME=default
+            - DJANGO_SU_NAME=toast
+            - DJANGO_SU_EMAIL=toast@nhntoast.com
+            - DJANGO_SU_PASSWORD=test1234
+        volumes:
+            - .:/sm
+        expose:
+            - "4000"
+    nginx:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - .:/sm
+            - ./config/nginx/:/etc/nginx/conf.d/
+        depends_on:
+            - web
