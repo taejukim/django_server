@@ -5,7 +5,6 @@ services:
             context: .
             dockerfile: Dockerfile
         environment: 
-            - DJANGO_DB_NAME=default
             - DJANGO_SU_NAME=toast
             - DJANGO_SU_EMAIL=toast@nhntoast.com
             - DJANGO_SU_PASSWORD=test1234
