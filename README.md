@@ -31,13 +31,13 @@
     > password : test1234
     >
     > email : toast@nhntoast.com
-* if you need to another account, modify `docker-compose.yml` file.
+* If you need to another account, modify `docker-compose.yml` file.
     ```yaml
     ...
     environment: 
-            - DJANGO_SU_NAME=toast
-            - DJANGO_SU_EMAIL=toast@nhntoast.com
-            - DJANGO_SU_PASSWORD=test1234
+        - DJANGO_SU_NAME=toast
+        - DJANGO_SU_EMAIL=toast@nhntoast.com
+        - DJANGO_SU_PASSWORD=test1234
     ...
     ```
 @author taeju.kim@nhntoast.com
