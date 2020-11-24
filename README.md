@@ -27,7 +27,9 @@
 ## Configuration
 * Defualt account is like a below.
     > id : toast
+    >
     > password : test1234
+    >
     > email : toast@nhntoast.com
 * if you need to another account, modify `docker-compose.yml` file.
     ```yaml
