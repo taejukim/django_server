@@ -1,15 +1,19 @@
-FROM python:3.8-slim-buster
+FROM python:3.9-slim-buster
 
+RUN apt-get update && \
+    apt-get install python3-dev default-libmysqlclient-dev build-essential -y
+
+RUN pip install --upgrade pip
 RUN pip install pipenv
 
-RUN mkdir /sm
-WORKDIR /sm
+RUN mkdir /django_login
+WORKDIR /django_login
 
-COPY Pipfile /sm/Pipfile
-COPY Pipfile.lock /sm/Pipfile.lock
+COPY Pipfile /django_login/Pipfile
+COPY Pipfile.lock /django_login/Pipfile.lock
 
 RUN pipenv install --system
 
-ADD . /sm
+ADD . /django_login
 
 CMD [ "sh", "docker-entrypoint.sh" ]

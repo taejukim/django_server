@@ -12,5 +12,5 @@ echo "from django.contrib.auth.models import User;\
       '$DJANGO_SU_EMAIL', '$DJANGO_SU_PASSWORD')" | python manage.py shell
       
 echo ":::::::Run gunicorn"
-gunicorn -b 0:4000 -w 2 sm.wsgi:application
+gunicorn -b 0:4000 -w 2 django_login.wsgi:application
 

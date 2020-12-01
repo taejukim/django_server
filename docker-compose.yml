@@ -9,7 +9,7 @@ services:
             - DJANGO_SU_EMAIL=toast@nhntoast.com
             - DJANGO_SU_PASSWORD=test1234
         volumes:
-            - .:/sm
+            - .:/django_login
         expose:
             - "4000"
     nginx:
@@ -17,7 +17,7 @@ services:
         ports:
             - "80:80"
         volumes:
-            - .:/sm
+            - .:/django_login
             - ./config/nginx/:/etc/nginx/conf.d/
         depends_on:
             - web
