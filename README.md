@@ -1,15 +1,15 @@
-# Django Login web service
+# Django Server
 
 ## Description
-* This is given only login form and authentication.
-* It made by django/python web framework
-* You can execution by just only 1 line command.
+* Login 폼 기능을 제공하는 Django 서버 입니다.
+* Python/Django, Nginx를 사용하고 DB는 sqlite3를 사용합니다.
+* API 요청에의한 응답 관련 기능도 확장 될 예정입니다.
 
 ## How to use
-* Install docker and docker compose.
-* Clone this repository
-* Run `docker-compose up --build -d` in console.
-* Enter `127.0.0.1` or server's ip address to enter.
+* `Docker`와 `docker-compose`를 설치 합니다.
+* 해당 저장소를 Clone 합니다.
+* `docker-compose up --build -d`를 Clone 한 폴더에서 실행 합니다.
+* `127.0.0.1`이나 서버 IP의 80번 포트를 사용해 진입 합니다.
 
 ## Form element selector
 * Username form
@@ -25,13 +25,13 @@
     `#login-form > div.submit-row > input[type=submit]`
 
 ## Configuration
-* Defualt account is like a below.
+* 기본 계정 정보는 아래와 같습니다.
     > id : toast
     >
     > password : test1234
     >
     > email : toast@nhntoast.com
-* If you need to another account, modify `docker-compose.yml` file.
+* 만약 다른 계정을 사용해야 한다면,`docker-compose.yml` file을 수정하세요
     ```yaml
     ...
     environment: 

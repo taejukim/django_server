@@ -6,14 +6,14 @@ RUN apt-get update && \
 RUN pip install --upgrade pip
 RUN pip install pipenv
 
-RUN mkdir /django_login
-WORKDIR /django_login
+RUN mkdir /django_server
+WORKDIR /django_server
 
-COPY Pipfile /django_login/Pipfile
-COPY Pipfile.lock /django_login/Pipfile.lock
+COPY Pipfile /django_server/Pipfile
+COPY Pipfile.lock /django_server/Pipfile.lock
 
 RUN pipenv install --system
 
-ADD . /django_login
+ADD . /django_server
 
 CMD [ "sh", "docker-entrypoint.sh" ]
