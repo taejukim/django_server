@@ -15,11 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from account import views
-from django.urls import path, include, re_path
+from api.views import method_test
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', views.signin),
-    path('api/', include('api.urls'), name='api'),
+    path('method/', method_test),
 ]
