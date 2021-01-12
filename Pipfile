@@ -9,6 +9,7 @@ gunicorn = "*"
 mysqlclient = "*"
 pysqlite3 = "*"
 cd = "*"
+xmltodict = "*"
 
 [dev-packages]
 

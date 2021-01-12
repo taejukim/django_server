@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import method_test
+from api.views import contents_type_test, delay_test, method_test, status_test
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('method/', method_test),
+    path('method/', method_test), # api/method
+    path('status/', status_test), # api/status
+    path('delay/', delay_test), # api/delay
+    path('contents/', contents_type_test), # api/contents
 ]
