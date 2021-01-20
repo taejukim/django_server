@@ -10,19 +10,34 @@ from api.references import status_code, html
 @csrf_exempt
 def method_test(request):
     retv = {
-        'isSuccessful':True,
-        'method':request.method,
+        'header': {
+            'resultCode': 0,
+            'resultMessage': 'SUCCESS',
+            'isSuccessful': True
+        },
+        'title': '{} Method TEST'.format(request.method),
+        'body': 'HTTP {} Method Test page'.format(request.method),
         'testDate':datetime.now().isoformat()
     }
     return JsonResponse(retv)
 
-def retv(isSuccessful, message, code=None):
-    return {
-            'isSuccessful':isSuccessful,
-            'statusCode':code,
-            'message':message,
-            'testDate':datetime.now().isoformat()
+def retv(isSuccessful, title, code=None):
+    header = {
+            'resultCode': 1,
+            'resultMessage': 'FAIL',
+            'isSuccessful': False
         }
+    if isSuccessful == True:
+        header['resultCode']=0
+        header['resultMessage']='SUCCESS'
+        header['isSuccessful']=isSuccessful
+    retv = {
+        'header':header,
+        'title':title,
+        'body':title + ' Body',
+        'testDate':datetime.now().isoformat()
+    }
+    return retv
 
 def status_test(request):
     code = request.GET.get('code')

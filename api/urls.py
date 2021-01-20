@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import TemplateView
 from api.views import contents_type_test, delay_test, method_test, status_test
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='index.html')),
     path('method/', method_test), # api/method
     path('status/', status_test), # api/status
     path('delay/', delay_test), # api/delay

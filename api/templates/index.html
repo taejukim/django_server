@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHN Soft::Mock Server for API test</title>
+</head>
+
+<body>
+
+    <div class="tui-editor-contents">
+        <h2 id="Server">API Test Server</h2>
+        <ul>
+            <h3>Server Specification</h3>
+            <li><a href="https://github.com/taejukim/django_server"
+                    target="_blank">https://github.com/taejukim/django_server</a>
+                <ul>
+                    <li>Specification
+                        <ul>
+                            <li>Docker</li>
+                            <li>Python 3.9(Slimbuster)</li>
+                            <li>Django 3.1</li>
+                            <li>Nginx</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            </br>
+            <hr>
+            <h2>HTTP Method Test</h2>
+            <li><a href="http://133.186.210.236/api/method" target="_blank">http://133.186.210.236/api/method</a>
+                <ul>
+                    <li>해당 URL로 각 Method 요청</li>
+                    <li>GET, POST, PUT, PATCH, DELETE, COPY, HEAD, OPTIONS, LINK, UNLINK, PURGE, LOCK, UNLOCK, PROFIND,
+                        VIEW 지원 가능</li>
+                </ul>
+            </li>
+            <h2>HTTP Status code Test</h2>
+            <li><a href="http://133.186.210.236/api/status" target="_blank">http://133.186.210.236/api/status</a>
+                <ul>
+                    <li>code 파라미터로 Status Code 전달</li>
+                    <li><a href="http://133.186.210.236/api/status?code=404"
+                            target="_blank">http://133.186.210.236/api/status?code=404</a></li>
+                    <li><a href="https://developer.mozilla.org/ko/docs/Web/HTTP/Status"
+                            target="_blank">https://developer.mozilla.org/ko/docs/Web/HTTP/Status</a>에 표시된 모든 Http
+                        Status Code Test 가능</li>
+                </ul>
+            </li>
+            <h2>HTTP 응답 시간 Test</h2>
+            <li><a href="http://133.186.210.236/api/delay" target="_blank">http://133.186.210.236/api/delay</a>
+                <ul>
+                    <li>second 파라미터로 Delay 시간 전달(초)</li>
+                    <li><a href="http://133.186.210.236/api/delay?second=10"
+                            target="_blank">http://133.186.210.236/api/delay?second=10</a></li>
+                    <li>소수로도 전달 가능 (e.g. <a href="http://133.186.210.236/api/delay?second=30.5"
+                            target="_blank">http://133.186.210.236/api/delay?second=30.5</a></li>
+                </ul>
+            </li>
+            <h2>HTTP Content Type Test</h2>
+            <li><a href="http://133.186.210.236/api/contents" target="_blank">http://133.186.210.236/api/contents</a>
+                <ul>
+                    <li>type 파라미터로 Contents Type 전달 (html, xml, json)</li>
+                    <li><a href="http://133.186.210.236/api/contents?type=xml"
+                            target="_blank">http://133.186.210.236/api/contents?type=xml</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+</html>
