@@ -34,7 +34,7 @@ def retv(isSuccessful, title, code=None):
     retv = {
         'header':header,
         'title':title,
-        'body':title + ' Body',
+        'body':'Contents of body',
         'testDate':datetime.now().isoformat()
     }
     return retv
