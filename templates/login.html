@@ -5,11 +5,27 @@
     <title>Login</title>
 </head>
 <body>
+    {% if not status %}
+    <h3 style="color:red;">Login fail!</h3>
+    {% endif %}
     <h2>Login form</h2>
     <form method="post">{% csrf_token %}
         <input type="text" name="username" >
         <input type="password" name="password">
         <input type="submit" value="login">
+        <div>
+            <ul>
+                <li>
+                    <span>id : toast</span>
+                </li>
+                <li>
+                    <span>email : toast@nhntoast.com</span>
+                </li>
+                <li>
+                    <span>password : test1234</span>
+                </li>
+            </ul>
+        </div>
     </form>
 </body>
 </html>

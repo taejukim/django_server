@@ -1,5 +1,7 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import login, authenticate
+from django.urls import reverse
 
 def signin(request):
     if request.method == "POST":
@@ -10,6 +12,9 @@ def signin(request):
             login(request, user)
             return render(request, 'ok.html')
         else:
-            return render(request, 'ng.html')
+            return HttpResponseRedirect(reverse('signin')+'?status=false')
     else:
-        return render(request, 'login.html')
+        status = True
+        if request.GET.get('status') == 'false':
+                status = False
+        return render(request, 'login.html', context={'status':status})
