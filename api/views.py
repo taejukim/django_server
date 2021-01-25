@@ -8,7 +8,7 @@ from api.references import status_code, html
 
 
 @csrf_exempt
-def method_test(request):
+def method_test(request, url_path=None):
     retv = {
         'header': {
             'resultCode': 0,
@@ -19,6 +19,10 @@ def method_test(request):
         'body': 'HTTP {} Method Test page'.format(request.method),
         'testDate':datetime.now().isoformat()
     }
+    if url_path or 'path' in request.path:
+        retv['path'] = request.path
+        retv['title'] = "API URL Path Test"
+        retv['body'] = "API URL Path Test Page"
     return JsonResponse(retv)
 
 def retv(isSuccessful, title, code=None):
