@@ -26,6 +26,25 @@ def method_path_test(request, url_path=None):
         retv['body'] = "API URL Path Test Page"
     return JsonResponse(retv)
 
+@csrf_exempt
+def multi_path_test(request, url_path=None):
+    retv = {
+        'header': {
+            'resultCode': 0,
+            'resultMessage': 'SUCCESS',
+            'isSuccessful': True
+        },
+        'title': '{} Method TEST (multi path)'.format(request.method),
+        'method': '{}'.format(request.method),
+        'body': 'HTTP {} Method Test page (multi path)'.format(request.method),
+        'testDate':datetime.now().isoformat()
+    }
+    if url_path or 'path' in request.path:
+        retv['path'] = request.path
+        retv['title'] = "API URL Path Test (multi path)"
+        retv['body'] = "API URL Path Test Page (multi path)"
+    return JsonResponse(retv)
+
 def retv(isSuccessful, title, code=None):
     header = {
             'resultCode': 1,
