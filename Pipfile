@@ -10,6 +10,11 @@ mysqlclient = "*"
 pysqlite3 = "*"
 cd = "*"
 xmltodict = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+drf-yasg = "*"
+flex = "*"
 
 [dev-packages]
 

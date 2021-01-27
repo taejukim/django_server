@@ -1,97 +1,77 @@
+import hashlib
+from hmac import HMAC
+from base64 import b64encode
 from django.shortcuts import render
-from django.http.response import HttpResponse, JsonResponse
-from datetime import datetime
-from django.views.decorators.csrf import csrf_exempt
-import time
-import xmltodict
-from api.references import status_code, html
+from datetime import datetime, timedelta
+import requests
+import json
 
-
-@csrf_exempt
-def method_path_test(request, url_path=None):
-    retv = {
-        'header': {
-            'resultCode': 0,
-            'resultMessage': 'SUCCESS',
-            'isSuccessful': True
-        },
-        'title': '{} Method TEST'.format(request.method),
-        'method': '{}'.format(request.method),
-        'body': 'HTTP {} Method Test page'.format(request.method),
-        'testDate':datetime.now().isoformat()
-    }
-    if url_path or 'path' in request.path:
-        retv['path'] = request.path
-        retv['title'] = "API URL Path Test"
-        retv['body'] = "API URL Path Test Page"
-    return JsonResponse(retv)
-
-@csrf_exempt
-def multi_path_test(request, url_path=None):
-    retv = {
-        'header': {
-            'resultCode': 0,
-            'resultMessage': 'SUCCESS',
-            'isSuccessful': True
-        },
-        'title': '{} Method TEST (multi path)'.format(request.method),
-        'method': '{}'.format(request.method),
-        'body': 'HTTP {} Method Test page (multi path)'.format(request.method),
-        'testDate':datetime.now().isoformat()
-    }
-    if url_path or 'path' in request.path:
-        retv['path'] = request.path
-        retv['title'] = "API URL Path Test (multi path)"
-        retv['body'] = "API URL Path Test Page (multi path)"
-    return JsonResponse(retv)
-
-def retv(isSuccessful, title, code=None):
-    header = {
-            'resultCode': 1,
-            'resultMessage': 'FAIL',
-            'isSuccessful': False
+def hmac_client(request):
+    template_name = 'hmac_client.html'
+    if request.method == 'POST':
+        post_data = request.POST
+        url = post_data.get('url')
+        secret_key = post_data.get('secret_key')
+        algorithm_name = post_data.get('algorithm_name')
+        time_skew = post_data.get('time_skew')
+        method = post_data.get('method')
+        headers = post_data.get('headers')
+        if headers:
+            _headers = json.loads(headers)
+        else:
+            _headers = ''
+        header, path, sign_string = get_headers(method, url, secret_key, _headers, time_skew, algorithm_name)
+        r = getattr(requests, method.lower())(url, headers=header)
+        try:
+            resp = json.loads(r.text)
+        except:
+            resp = r.text
+        context = {
+            'response':resp,
+            'url':url,
+            'secret_key':secret_key,
+            'algorithm_name':algorithm_name,
+            'time_skew':time_skew,
+            'headers':headers,
+            'header':header,
+            'method':method,
+            'path':path,
+            'sign_string':sign_string.replace('\n', '</br>'),
         }
-    if isSuccessful == True:
-        header['resultCode']=0
-        header['resultMessage']='SUCCESS'
-        header['isSuccessful']=isSuccessful
-    retv = {
-        'header':header,
-        'title':title,
-        'body':'Contents of body',
-        'testDate':datetime.now().isoformat()
-    }
-    return retv
+    else:
+        context = {
+            
+        }
+    return render(request, template_name, context)
+ 
+def get_credential(secret_key, sign_string, algorithm_name):
+    algorithm = getattr(hashlib, algorithm_name.lower())
+    hm = HMAC(secret_key.encode(), sign_string.encode(), algorithm)
+    return b64encode(hm.digest())
 
-def status_test(request):
-    code = request.GET.get('code')
-    if code:
-        resp = JsonResponse(retv(True, status_code.get(code), code))
-        resp.status_code = int(code)
-        return resp 
-    return JsonResponse(retv(False, 'Status Code를 확인해주세요.'))
+def get_headers(method: str, url: str, secret_key: str, headers: dict, timeskew: int, algorithm_name: str):
+    now = (datetime.utcnow()+timedelta(seconds=int(timeskew))).replace(microsecond=0).isoformat() + 'Z'
+    method = method.upper()
+    splited_url = url.split('/',3)
+    path = '/'+ splited_url[-1]
+    host = splited_url[2]
 
-def delay_test(request):
-    second = request.GET.get('second')
-    if second:
-        time.sleep(float(second))
-        resp = JsonResponse(retv(True, f'Delay {second} Second(s)', 200))
-        return resp 
-    return JsonResponse(retv(False, 'Second를 확인해주세요.'))
-
-def contents_type_test(request):
-    contents_type = request.GET.get('type')
-    if contents_type:
-        if contents_type == 'html':
-            return HttpResponse(html.format(datetime.now().isoformat()),
-                                content_type='text/html')
-
-        elif contents_type == 'json':
-            return JsonResponse(retv(True, 'JSON Format Response Test', 200))
-
-        elif contents_type == 'xml':
-            json_retv = {'response':retv(True, 'XML Format Response Test', 200)}
-            return HttpResponse(xmltodict.unparse(json_retv, pretty=True),
-                                content_type='application/xml')       
-
-    return JsonResponse(retv(False, 'Contents Type을 확인해주세요.'))
+    sign_string = f'{method}\n{path}\n{now}'
+    for header in headers:
+        value = headers.get(header)
+        sign_string +=f'\n{header}:{value}'
+    signature = get_credential(secret_key, sign_string, algorithm_name).decode('utf-8')
+    algorithm_name = algorithm_name.upper()
+    if headers:
+        headers_key = ','.join(dict(headers).keys())
+        headers = {
+        'Authorization':f'hmac algorithm="Hmac{algorithm_name}", headers="{headers_key}", signature="{signature}"',
+        'x-nhn-date':now
+        }
+    else:
+        headers = {
+        'Authorization':f'hmac algorithm="Hmac{algorithm_name}", signature="{signature}"',
+        'x-nhn-date':now
+        }
+    return headers, path, sign_string
+    

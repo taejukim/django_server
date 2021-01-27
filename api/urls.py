@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from api.views import contents_type_test, delay_test,\
+from api.apis import contents_type_test, delay_test,\
              method_path_test, status_test, multi_path_test
+from api.views import hmac_client
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
@@ -29,4 +30,5 @@ urlpatterns = [
     path('contents/', contents_type_test), # api/contents
     path('path2/', multi_path_test), # api/contents
     path('path2/<path:url_path>', multi_path_test), # api/contents
+    path('hmac/', hmac_client), # api/hmac
 ]

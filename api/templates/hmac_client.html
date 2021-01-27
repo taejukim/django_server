@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>HMAC Client</title>
+</head>
+<body>
+    <h2>HMAC Client For API Gateway v2</h2>
+    <form method="post">{% csrf_token %}
+        <label for="url">url</label>
+        <input type="text" name="url" value="{{url}}">
+        </br>
+        <label for="secret_key">Secret key</label>
+        <input type="text" name="secret_key" value="{{secret_key}}">
+    </br>
+
+        <label for="method">HTTP Method(GET/POST/PUT/DELETE/PATCH)</label>
+        <input type="text" name="method" value="{{method}}">
+</br>
+        <label for="time_skew">Time 조정</label>
+        <input type="number" name="time_skew" value="{{time_skew}}">
+
+    </br>
+        <label for="algorithm_name">Algorithm name</label>
+        <input type="text" name="algorithm_name" value="{{algorithm_name}}">
+</br>
+<label for="algorithm_name">Headers (JSON)</label>
+<textarea name="headers" id="headers" cols="30" rows="10">{{headers}}</textarea>
+        <!-- <select name="algorithm_name">
+            <option value="sha1" selected>SHA1</option>
+            <option value="sha256" >SHA256</option>
+          </select> -->
+        <input type="submit" value="Submit">
+    </form>
+    {% if response %}
+    <div>
+        <ul>
+            <li>url : {{url}}</li>
+            <li>Secret Key : {{secret_key}}</li>
+            <li>headers : {{header}}</li>
+            <li>Http Method : {{method}}</li>
+            <li>Time 조정 : {{time_skew}}</li>
+            <li>path : {{path}}</li>
+            <li>sign_string : </br>{{sign_string|safe}}</li>
+            <li>Agorithm name : {{algorithm_name}}</li>
+        </ul>
+        
+        {{response}}
+        </p>
+    </div>
+    {% endif %}
+</body>
+</html>
