@@ -19,8 +19,8 @@ from account import views
 from django.urls import path, include, re_path
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('', views.signin, name='signin'),
+    path('modify', views.modify, name='modify'),
     path('api/', include('api.urls'), name='api'),
-    path('api-auth/', include('rest_framework.urls')),
 ]

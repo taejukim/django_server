@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Modify Account</title>
+</head>
+<body>
+    <h2>Password 수정</h2>
+    <h3>현재 Password : {{pw}}</h3>
+    <form method="post">{% csrf_token %}
+    <input type="text" name="username" value="toast" readonly>
+    <input type="password" name="pw">
+    <input type="submit" value="변경">
+    </form>
+</body>
+</html>
