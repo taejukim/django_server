@@ -1,10 +1,14 @@
 import hashlib
-from hmac import HMAC
-from base64 import b64encode
 from django.shortcuts import render
-from datetime import datetime, timedelta
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from hmac import HMAC
 import requests
 import json
+from base64 import b64encode
+from datetime import datetime, timedelta
+from api.models import ServerStatus
+
 
 def hmac_client(request):
     template_name = 'hmac_client.html'
@@ -75,3 +79,23 @@ def get_headers(method: str, url: str, secret_key: str, headers: dict, timeskew:
         }
     return headers, path, sign_string
     
+
+def server_health_adjust(request):
+    status = ServerStatus.objects.get(id=1)
+    if request.method == 'POST':
+        post_data = request.POST
+        types = post_data.get('types')
+        status_code = post_data.get('status_code')
+        delay_time = post_data.get('delay_time')
+        status.types = types
+        status.delay_time = delay_time
+        status.status_code = status_code
+        status.save()
+        return HttpResponseRedirect(reverse('adjust'))
+    
+    context = {
+        'types':status.types,
+        'status_code':status.status_code,
+        'delay_time':status.delay_time
+        }
+    return render(request, "adjust.html", context)

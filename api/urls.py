@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
 from api.apis import contents_type_test, delay_test,\
-             method_path_test, status_test, multi_path_test
-from api.views import hmac_client
+             method_path_test, status_test, multi_path_test, server_failure
+from api.views import hmac_client, server_health_adjust
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
@@ -31,4 +31,6 @@ urlpatterns = [
     path('path2/', multi_path_test), # api/contents
     path('path2/<path:url_path>', multi_path_test), # api/contents
     path('hmac/', hmac_client), # api/hmac
+    path('server_failure/', server_failure, name="server_failure"), # api/hmac
+    path('server_failure/adjust', server_health_adjust, name="adjust"), # api/hmac
 ]

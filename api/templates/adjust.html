@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Server 장애 발생 설정</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h2>서버 장애 발생</h2>
+    <h3>Target path "/api/server_failure"</h3>
+
+    <form method="post">{% csrf_token %}
+        <label for="url">Server 장애 Type</label>
+        <select id="types" name="types">
+            <option name="status_code" value="status_code">Status Code</option>
+            <option name="delay_time" value="delay_time">응답 시간</option>
+        </select>
+        </br>
+        <label for="status_code">Status Code</label>
+        <input type="text" name="status_code" value="{{status_code}}">
+    </br>
+
+        <label for="delay_time">응답 시간</label>
+        <input type="text" name="delay_time" value="{{delay_time}}">
+    </br>   
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        $("#types option[name={{types}}]").prop("selected", true); 
+    </script>
+</body>
+</html>

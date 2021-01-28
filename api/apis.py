@@ -5,7 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 import time
 import xmltodict
 from api.references import status_code, html
-
+from api.models import ServerStatus
+from datetime import datetime
 
 @csrf_exempt
 def method_path_test(request, url_path=None):
@@ -45,7 +46,7 @@ def multi_path_test(request, url_path=None):
         retv['body'] = "API URL Path Test Page (multi path)"
     return JsonResponse(retv)
 
-def retv(isSuccessful, title, code=None):
+def retv(isSuccessful, title, code=None, **kwargs):
     header = {
             'resultCode': 1,
             'resultMessage': 'FAIL',
@@ -61,12 +62,13 @@ def retv(isSuccessful, title, code=None):
         'body':'Contents of body',
         'testDate':datetime.now().isoformat()
     }
+    retv.update(kwargs)
     return retv
 
 def status_test(request):
     code = request.GET.get('code')
     if code:
-        resp = JsonResponse(retv(True, status_code.get(code), code))
+        resp = JsonResponse(retv(True, str(code) + " " + status_code.get(code), code))
         resp.status_code = int(code)
         return resp 
     return JsonResponse(retv(False, 'Status Code를 확인해주세요.'))
@@ -74,8 +76,13 @@ def status_test(request):
 def delay_test(request):
     second = request.GET.get('second')
     if second:
+        request_time = datetime.now().isoformat()
         time.sleep(float(second))
-        resp = JsonResponse(retv(True, f'Delay {second} Second(s)', 200))
+        response_time = datetime.now().isoformat()
+        resp = JsonResponse(retv(True, f'Delay {second} Second(s)', 200, 
+            request_time=request_time,
+            response_time=response_time,
+            ))
         return resp 
     return JsonResponse(retv(False, 'Second를 확인해주세요.'))
 
@@ -95,3 +102,27 @@ def contents_type_test(request):
                                 content_type='application/xml')       
 
     return JsonResponse(retv(False, 'Contents Type을 확인해주세요.'))
+
+def server_failure(request):
+    status = ServerStatus.objects.get(id=1) 
+    types = status.types
+    delay_time = status.delay_time
+    code = status.status_code
+
+    if types == 'status_code':
+        resp = JsonResponse(retv(True, str(code) + " " + status_code.get(code), code))
+        resp.status_code = int(code)
+        return resp 
+
+    if types == 'delay_time':
+        request_time = datetime.now().isoformat()
+        time.sleep(float(delay_time))
+        response_time = datetime.now().isoformat()
+        diff 
+        resp = JsonResponse(retv(True, f'Delay {delay_time} Second(s)', 200, 
+            request_time=request_time,
+            response_time=response_time,
+            ))
+        return resp  
+
+    return JsonResponse(retv(False, '서버 장애 내용을 확인해주세요.'))
