@@ -14,7 +14,8 @@ def method_path_test(request, url_path=None):
         'header': {
             'resultCode': 0,
             'resultMessage': 'SUCCESS',
-            'isSuccessful': True
+            'isSuccessful': True,
+            'requestHeaders':dict(request.headers),
         },
         'title': '{} Method TEST'.format(request.method),
         'method': '{}'.format(request.method),
@@ -25,26 +26,13 @@ def method_path_test(request, url_path=None):
         retv['path'] = request.path
         retv['title'] = "API URL Path Test"
         retv['body'] = "API URL Path Test Page"
+    resp = JsonResponse(retv)
+    retv['header']['responseHeaders'] = dict(resp._headers)
     return JsonResponse(retv)
 
 @csrf_exempt
 def multi_path_test(request, url_path=None):
-    retv = {
-        'header': {
-            'resultCode': 0,
-            'resultMessage': 'SUCCESS',
-            'isSuccessful': True
-        },
-        'title': '{} Method TEST (multi path)'.format(request.method),
-        'method': '{}'.format(request.method),
-        'body': 'HTTP {} Method Test page (multi path)'.format(request.method),
-        'testDate':datetime.now().isoformat()
-    }
-    if url_path or 'path' in request.path:
-        retv['path'] = request.path
-        retv['title'] = "API URL Path Test (multi path)"
-        retv['body'] = "API URL Path Test Page (multi path)"
-    return JsonResponse(retv)
+    return method_path_test(request, url_path)
 
 def retv(isSuccessful, title, code=None, **kwargs):
     header = {
@@ -118,7 +106,6 @@ def server_failure(request):
         request_time = datetime.now().isoformat()
         time.sleep(float(delay_time))
         response_time = datetime.now().isoformat()
-        diff 
         resp = JsonResponse(retv(True, f'Delay {delay_time} Second(s)', 200, 
             request_time=request_time,
             response_time=response_time,
