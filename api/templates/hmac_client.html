@@ -10,7 +10,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet"
+        href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <style>
+        input {
+            margin-bottom: 5px;
+        }
+    </style>
     <title>HMAC Client</title>
 </head>
 
@@ -18,45 +27,59 @@
     <div class="container-fluid">
 
         <h2>HMAC Client For API Gateway v2</h2>
+        <hr>
         <div class="row">
             <div class="col-md-8">
                 <form method="post">{% csrf_token %}
                     <div class="form-group">
+                        
                         <label>Target URL</label>
                         <input type="text" name="url" class="form-control" value="{{url}}">
-                        <label>Secret Key</label>
-                        <input type="text" name="secret_key" class="form-control" value="{{secret_key}}">
-                        <label for="method">HTTP Method(GET/POST/PUT/DELETE/PATCH)</label>
-                        <input type="text" name="method" class="form-control" value="{{method}}">
-                        <label for="time_skew">Time 조정</label>
-                        <input type="number" name="time_skew" class="form-control" value="{{time_skew}}">
-                        <label for="algorithm_name">Algorithm name</label>
-                        <input type="text" name="algorithm_name" class="form-control" value="{{algorithm_name}}">
-                        <label for="algorithm_name">Headers (JSON)</label>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <label>Secret Key</label>
+                                <input type="text" name="secret_key" class="form-control" value="{{secret_key}}">
+                            </div>
+                            <div class="col-xs-3">
+                                <label for="method">HTTP Method(GET/POST/PUT/DELETE/PATCH)</label>
+                                <input type="text" name="method" class="form-control" value="{{method}}">
+                            </div>
+                            <div class="col-xs-1">
+                                <label for="time_skew">Time 조정</label>
+                                <input type="number" name="time_skew" class="form-control" value="{{time_skew}}">
+                            </div>
+                            <div class="col-xs-2">
+                                <label for="algorithm_name">Algorithm name</label>
+                                <input type="text" name="algorithm_name" class="form-control" value="{{algorithm_name}}">
+                            </div>
+                          </div>
+                       
+                        
+                        
+                        
+                        <label for="algorithm_name">Headers (JSON 포맷으로 입력)</label>
                         <textarea name="headers" id="headers" cols="30" class="form-control"
-                            rows="10">{{headers}}</textarea>
+                            rows="3">{{headers}}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-default">요청</button>
                 </form>
                 {% if response %}
+                <hr>
                 <H3>Result</H3>
                 <div>
                     <ul>
-                        <li>Target URL : {{url}}</li>
-                        <li>Secret Key : {{secret_key}}</li>
-                        <li>headers : {{header}}</li>
-                        <li>Http Method : {{method}}</li>
-                        <li>Time 조정 : {{time_skew}}</li>
-                        <li>Path : {{path}}</li>
-                        <li>SignToString : </br>{{sign_string|safe}}</li>
-                        <li>Agorithm name : {{algorithm_name}}</li>
+                        <li>Target URL : <code>{{url}}</code></li>
+                        <li>Secret Key : <code>{{secret_key}}</code></li>
+                        <li>headers : </br><pre style="white-space:normal;">{{header}}</pre></li>
+                        <li>Http Method : <code>{{method}}</code></li>
+                        <li>Time 조정 : <code>{{time_skew}}초</code></li>
+                        <li>Path : <code>{{path}}</code></li>
+                        <li>SignToString : </br><pre>{{sign_string|safe}}</pre></li>
+                        <li>Agorithm name : <code>{{algorithm_name}}</code></li>
                     </ul>
                 <H3>Response</H3>
-                    <pre>
-                        {{response}}
-                    </pre>
-                    </p>
+                    <pre><code class="language-json" id="response"></code></pre>
                 </div>
                 {% endif %}
             </div>
@@ -64,5 +87,9 @@
     </div>
 
 </body>
-
+<script>
+    var obj = `{{response|safe}}`;
+    var json_data = JSON.parse(obj)
+    $('#response')[0].textContent= '//{{timestamp}}' + '\n' +((JSON.stringify(json_data, null, 4)));
+</script>
 </html>

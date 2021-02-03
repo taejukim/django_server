@@ -26,11 +26,10 @@ def hmac_client(request):
             _headers = ''
         header, path, sign_string = get_headers(method, url, secret_key, _headers, time_skew, algorithm_name)
         r = getattr(requests, method.lower())(url, headers=header)
-        try:
-            resp = json.loads(r.text)
-        except:
-            resp = r.text
+        resp = r.text
+        resp = resp.replace('\\"',"'")
         context = {
+            'timestamp':datetime.now().isoformat(),
             'response':resp,
             'url':url,
             'secret_key':secret_key,
@@ -68,11 +67,12 @@ def get_headers(method: str, url: str, secret_key: str, headers: dict, timeskew:
     algorithm_name = algorithm_name.upper()
     if headers:
         headers_key = ','.join(dict(headers).keys())
-        headers.update({
+        auth_header = {
         'Authorization':f'hmac algorithm="Hmac{algorithm_name}", headers="{headers_key}", signature="{signature}"',
         'x-nhn-date':now
-        })
-        
+        }
+        auth_header.update(headers)
+        headers = auth_header
     else:
         headers = {
         'Authorization':f'hmac algorithm="Hmac{algorithm_name}", signature="{signature}"',
