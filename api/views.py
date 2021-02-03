@@ -68,10 +68,11 @@ def get_headers(method: str, url: str, secret_key: str, headers: dict, timeskew:
     algorithm_name = algorithm_name.upper()
     if headers:
         headers_key = ','.join(dict(headers).keys())
-        headers = {
+        headers.update({
         'Authorization':f'hmac algorithm="Hmac{algorithm_name}", headers="{headers_key}", signature="{signature}"',
         'x-nhn-date':now
-        }
+        })
+        
     else:
         headers = {
         'Authorization':f'hmac algorithm="Hmac{algorithm_name}", signature="{signature}"',

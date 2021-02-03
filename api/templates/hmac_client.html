@@ -1,53 +1,68 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0">
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <title>HMAC Client</title>
 </head>
+
 <body>
-    <h2>HMAC Client For API Gateway v2</h2>
-    <form method="post">{% csrf_token %}
-        <label for="url">url</label>
-        <input type="text" name="url" value="{{url}}">
-        </br>
-        <label for="secret_key">Secret key</label>
-        <input type="text" name="secret_key" value="{{secret_key}}">
-    </br>
+    <div class="container-fluid">
 
-        <label for="method">HTTP Method(GET/POST/PUT/DELETE/PATCH)</label>
-        <input type="text" name="method" value="{{method}}">
-</br>
-        <label for="time_skew">Time 조정</label>
-        <input type="number" name="time_skew" value="{{time_skew}}">
+        <h2>HMAC Client For API Gateway v2</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <form method="post">{% csrf_token %}
+                    <div class="form-group">
+                        <label>Target URL</label>
+                        <input type="text" name="url" class="form-control" value="{{url}}">
+                        <label>Secret Key</label>
+                        <input type="text" name="secret_key" class="form-control" value="{{secret_key}}">
+                        <label for="method">HTTP Method(GET/POST/PUT/DELETE/PATCH)</label>
+                        <input type="text" name="method" class="form-control" value="{{method}}">
+                        <label for="time_skew">Time 조정</label>
+                        <input type="number" name="time_skew" class="form-control" value="{{time_skew}}">
+                        <label for="algorithm_name">Algorithm name</label>
+                        <input type="text" name="algorithm_name" class="form-control" value="{{algorithm_name}}">
+                        <label for="algorithm_name">Headers (JSON)</label>
+                        <textarea name="headers" id="headers" cols="30" class="form-control"
+                            rows="10">{{headers}}</textarea>
+                    </div>
 
-    </br>
-        <label for="algorithm_name">Algorithm name</label>
-        <input type="text" name="algorithm_name" value="{{algorithm_name}}">
-</br>
-<label for="algorithm_name">Headers (JSON)</label>
-<textarea name="headers" id="headers" cols="30" rows="10">{{headers}}</textarea>
-        <!-- <select name="algorithm_name">
-            <option value="sha1" selected>SHA1</option>
-            <option value="sha256" >SHA256</option>
-          </select> -->
-        <input type="submit" value="Submit">
-    </form>
-    {% if response %}
-    <div>
-        <ul>
-            <li>url : {{url}}</li>
-            <li>Secret Key : {{secret_key}}</li>
-            <li>headers : {{header}}</li>
-            <li>Http Method : {{method}}</li>
-            <li>Time 조정 : {{time_skew}}</li>
-            <li>path : {{path}}</li>
-            <li>sign_string : </br>{{sign_string|safe}}</li>
-            <li>Agorithm name : {{algorithm_name}}</li>
-        </ul>
-        
-        {{response}}
-        </p>
+                    <button type="submit" class="btn btn-default">요청</button>
+                </form>
+                {% if response %}
+                <H3>Result</H3>
+                <div>
+                    <ul>
+                        <li>Target URL : {{url}}</li>
+                        <li>Secret Key : {{secret_key}}</li>
+                        <li>headers : {{header}}</li>
+                        <li>Http Method : {{method}}</li>
+                        <li>Time 조정 : {{time_skew}}</li>
+                        <li>Path : {{path}}</li>
+                        <li>SignToString : </br>{{sign_string|safe}}</li>
+                        <li>Agorithm name : {{algorithm_name}}</li>
+                    </ul>
+                <H3>Response</H3>
+                    <pre>
+                        {{response}}
+                    </pre>
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+            </div>
     </div>
-    {% endif %}
+
 </body>
+
 </html>
