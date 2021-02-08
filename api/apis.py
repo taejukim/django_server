@@ -56,9 +56,21 @@ def retv(isSuccessful, title, code=None, **kwargs):
 def status_test(request):
     code = request.GET.get('code')
     if code:
-        resp = JsonResponse(retv(True, str(code) + " " + status_code.get(code), code))
+        resp = JsonResponse(
+            retv(True, str(code) + " " + status_code.get(code), code)
+            )
         resp.status_code = int(code)
         return resp 
+    return JsonResponse(retv(False, 'Status Code를 확인해주세요.'))
+
+@csrf_exempt
+def status_test_path(request, code):
+    if code:
+        resp = JsonResponse(
+            retv(True, str(code) + " " + status_code.get(str(code)), str(code))
+            )
+        resp.status_code = int(code)
+        return resp
     return JsonResponse(retv(False, 'Status Code를 확인해주세요.'))
 
 def delay_test(request):
