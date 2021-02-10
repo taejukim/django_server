@@ -137,3 +137,36 @@ def big_body(request):
             ))
     except:
         return JsonResponse(retv(False, 'Body Size(Bytes)를 확인해주세요.'))
+
+@csrf_exempt
+def file_upload(request):
+    try:
+        files = request.FILES
+        file_keys = files.keys()
+        file_count = len(file_keys)
+        file_info = list()
+        for key in file_keys:
+            if len(files) == 1:
+                f = files.get(key)
+                file_info.append(
+                    {
+                        'key':key,
+                        'file_name':f.name,
+                        'file_size':'{:,} bytes'.format(f.size)
+                    }
+                )
+            else:
+                for f in files.get(key):
+                    file_info.append(
+                        {   
+                            'key':key,
+                            'file_name':f.name, 
+                            'file_size':'{:,} bytes'.format(f.size)
+                        }
+                    )
+        return JsonResponse(retv(True, 'File Upload Test', None,
+                files=file_info,
+                file_count=file_count
+                ))
+    except:
+        return JsonResponse(retv(False, 'File upload 요청이 잘못 되었습니다.'))

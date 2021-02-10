@@ -18,7 +18,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from api.apis import contents_type_test, delay_test,\
              method_path_test, status_test, multi_path_test,\
-             server_failure, status_test_path, big_body
+             server_failure, status_test_path, big_body, file_upload
 from api.views import hmac_client, server_health_adjust
 
 urlpatterns = [
@@ -36,4 +36,5 @@ urlpatterns = [
     path('server_failure/', server_failure, name="server_failure"), # api/hmac
     path('server_failure/adjust', server_health_adjust, name="adjust"), # api/hmac
     path('bigbody/', big_body, name="bigbody"), # api/bigbody
+    path('file-upload/', file_upload, name="fileupload"), # api/file-upload
 ]
