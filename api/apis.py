@@ -138,6 +138,16 @@ def big_body(request):
     except:
         return JsonResponse(retv(False, 'Body Size(Bytes)를 확인해주세요.'))
 
+def big_body_url_path(request, size: int):
+    try:
+        binaries = os.urandom(size)
+        return JsonResponse(retv(True, 'Big Size Response body Test', None,
+            body=binaries.decode('utf-16-le', errors='ignore'),
+            bytes='{:,} bytes'.format(size)
+            ))
+    except:
+        return JsonResponse(retv(False, 'Body Size(Bytes)를 확인해주세요.'))
+
 @csrf_exempt
 def file_upload(request):
     try:
