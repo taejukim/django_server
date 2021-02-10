@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http.response import HttpResponse, JsonResponse
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
+import os
 import time
 import xmltodict
 from api.references import status_code, html
@@ -125,3 +126,14 @@ def server_failure(request):
         return resp  
 
     return JsonResponse(retv(False, '서버 장애 내용을 확인해주세요.'))
+
+def big_body(request):
+    try:
+        size = int(request.GET.get('bytes'))
+        binaries = os.urandom(size)
+        return JsonResponse(retv(True, 'Big Size Response body Test', None,
+            body=binaries.decode('utf-16-le', errors='ignore'),
+            bytes='{:,} bytes'.format(size)
+            ))
+    except:
+        return JsonResponse(retv(False, 'Body Size(Bytes)를 확인해주세요.'))
