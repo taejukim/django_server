@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.signin, name='signin'),
     path('modify', views.modify, name='modify'),
-    path('api/', include('api.urls'), name='api'),
+    path('api', include('api.urls'), name='api'),
 ]
