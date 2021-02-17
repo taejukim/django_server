@@ -13,6 +13,9 @@ static/
 # Attached files
 static/files/
 
+# SSL Certbot
+certbot/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
