@@ -131,20 +131,14 @@ def big_body(request):
     try:
         size = int(request.GET.get('bytes'))
         binaries = os.urandom(size)
-        return JsonResponse(retv(True, 'Big Size Response body Test', None,
-            body=binaries.decode('utf-16-le', errors='ignore'),
-            bytes='{:,} bytes'.format(size)
-            ))
+        return HttpResponse(binaries)
     except:
         return JsonResponse(retv(False, 'Body Size(Bytes)를 확인해주세요.'))
 
 def big_body_url_path(request, size: int):
     try:
         binaries = os.urandom(size)
-        return JsonResponse(retv(True, 'Big Size Response body Test', None,
-            body=binaries.decode('utf-16-le', errors='ignore'),
-            bytes='{:,} bytes'.format(size)
-            ))
+        return HttpResponse(binaries)
     except:
         return JsonResponse(retv(False, 'Body Size(Bytes)를 확인해주세요.'))
 
