@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains="apitests.ml" 
+domains="api-ht.ml" 
 rsa_key_size=4096
 data_path="./certbot"
 email="taeju.kim@nhnsoft.com" # Adding a valid address is strongly recommended
