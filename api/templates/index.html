@@ -86,6 +86,14 @@
                     <li>서버의 응답 시간을 조절하여 Time out 장애 발생</li>
                     <li>장애 설정 Page <a href="/api/server_failure/adjust" target="_blank">/api/server_failure/adjust</a></li>
                 </ul>
+                <h4>서버 장애 설정 API</h4>
+                <ul>
+                    <li>조회 : GET /api/server_failure/adjust/api HTTP/1.1</li>
+                    <li>설정 : POST /api/server_failure/adjust/api HTTP/1.1</li>
+                    <li>Content-Type: application/json</li>
+                    <li>{ "types":[status_code or delay_time], "statuas_code":[http status code], "delay_time":[integer] }</li>
+                        
+                </ul>
             </li>
             <h2>Big size response body Test</h2>
             <li><a href="/api/bigbody" target="_blank">/api/bigbody/</a>
