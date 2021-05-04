@@ -8,6 +8,7 @@ import xmltodict
 from api.references import status_code, html
 from api.models import ServerStatus
 from datetime import datetime
+from api.models import APIHistory
 
 @csrf_exempt
 def method_path_test(request, url_path=None):
@@ -30,6 +31,37 @@ def method_path_test(request, url_path=None):
     resp = JsonResponse(retv)
     retv['header']['responseHeaders'] = dict(resp._headers)
     return JsonResponse(retv)
+
+
+@csrf_exempt
+def api_history(request, url_path=None):
+    retv = {
+        'header': {
+            'resultCode': 0,
+            'resultMessage': 'SUCCESS',
+            'isSuccessful': True,
+            'requestHeaders':dict(request.headers),
+        },
+        'title': '{} Method TEST'.format(request.method),
+        'method': '{}'.format(request.method),
+        'body': 'HTTP {} Method Test page'.format(request.method),
+        'testDate':datetime.now().isoformat()
+    }
+    if url_path or 'path' in request.path:
+        retv['path'] = request.path
+        retv['title'] = "API URL Path Test"
+        retv['body'] = "API URL Path Test Page"
+    
+    new_history = APIHistory(
+        headers=request.headers,
+        body = request.body,
+        url = request.url
+    )
+    new_history.save()
+
+    resp = JsonResponse(retv)
+    return JsonResponse(retv)
+
 
 @csrf_exempt
 def multi_path_test(request, url_path=None):

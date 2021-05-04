@@ -1,14 +1,17 @@
 import hashlib
+from django.http.response import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.forms.models import model_to_dict
 from hmac import HMAC
 import requests
 import json
 from base64 import b64encode
 from datetime import datetime, timedelta
 from api.models import ServerStatus
-
+from api import references
 
 def hmac_client(request):
     template_name = 'hmac_client.html'
@@ -100,3 +103,72 @@ def server_health_adjust(request):
         'delay_time':status.delay_time
         }
     return render(request, "adjust.html", context)
+
+@csrf_exempt
+def server_health_api(request):
+    status = ServerStatus.objects.get(id=1)
+    retv = {
+        'header': {
+            'resultCode': 0,
+            'resultMessage': 'SUCCESS',
+            'isSuccessful': True,
+        }
+    }
+    if request.method == 'POST':
+        try:
+            req_data = json.loads(request.body)
+            current_status = model_to_dict(status)
+            for key in req_data.keys():
+                if key not in current_status.keys():
+                    retv['header'] = {
+                    'resultCode':4, 
+                    'resultMessage':'Field is invalid', 
+                    'isSucessful':False
+                    }
+                    retv['result'] = '{} is not in status'.format(key)
+                    return JsonResponse(retv)
+            current_status.update(req_data)
+            types = current_status.get('types')
+            if types not in ['status_code', 'delay_time']:
+                retv['header'] = {
+                'resultCode':1, 
+                'resultMessage':'Type is invalide', 
+                'isSucessful':False
+                }
+                retv['result'] = 'Types should be status_code or delay_time!'
+                return JsonResponse(retv)
+            status_code = current_status.get('status_code')
+            if status_code not in references.status_code.keys():
+                retv['header'] = {
+                'resultCode':2, 
+                'resultMessage':'Status code is invalid', 
+                'isSucessful':False
+                }
+                retv['result'] = '{} is not HTTP Status code! '.format(status_code)
+                return JsonResponse(retv)
+            delay_time = current_status.get('delay_time')
+            if not str(delay_time).isnumeric():
+                retv['header'] = {
+                'resultCode':3, 
+                'resultMessage':'Delay time is invalid', 
+                'isSucessful':False
+                }
+                retv['result'] = 'delay time should be positive integer'
+                return JsonResponse(retv)
+
+            status.types = types
+            status.delay_time = delay_time
+            status.status_code = status_code
+            status.save()
+            retv['result'] = model_to_dict(status)
+        except Exception as e:
+            retv['header'] = {
+                'resultCode':9, 
+                'resultMessage':'FAIL', 
+                'isSucessful':False
+                }
+            retv['result'] = ' '.join(e.args)
+        return JsonResponse(retv)
+    
+    retv['result'] = model_to_dict(status)
+    return JsonResponse(retv)

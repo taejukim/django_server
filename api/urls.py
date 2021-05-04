@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
 from api.apis import contents_type_test, delay_test,\
-             method_path_test, status_test, multi_path_test,\
+             method_path_test, status_test, multi_path_test, api_history, \
              server_failure, status_test_path, big_body, file_upload, big_body_url_path
-from api.views import hmac_client, server_health_adjust
+from api.views import hmac_client, server_health_adjust, server_health_api
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
     path('method', method_path_test), # api/method
+    path('history', api_history), # api/history
     path('path/<path:url_path>', method_path_test), # api/path/path/to/test/any/path
     path('path', method_path_test), # api/path
     path('status', status_test), # api/status
@@ -35,6 +36,7 @@ urlpatterns = [
     path('hmac', hmac_client), # api/hmac
     path('server_failure', server_failure, name="server_failure"), # api/hmac
     path('server_failure/adjust', server_health_adjust, name="adjust"), # api/hmac
+    path('server_failure/adjust/api', server_health_api, name="adjust_api"), # api/hmac
     path('bigbody', big_body, name="bigbody"), # api/bigbody
     path('bigbody/<int:size>', big_body_url_path, name="bigbody"), # api/bigbody
     path('file-upload', file_upload, name="fileupload"), # api/file-upload
