@@ -15,13 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from account import views
-from django.urls import path, include, re_path
+from webhook.views import hooks
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.signin, name='signin'),
-    path('modify', views.modify, name='modify'),
-    path('api/', include('api.urls'), name='api'),
-    path('webhook/', include('webhook.urls'), name='webhook'),
+    path('', hooks),
 ]
+
