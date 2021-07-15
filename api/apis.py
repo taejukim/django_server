@@ -27,7 +27,7 @@ def method_path_test(request, url_path=None):
     if url_path or 'path' in request.path:
         retv['path'] = request.path
         retv['url'] = '{}://{}{}'.format(
-                request.header.get('X-Forwarded-Proto'),
+                request.headers.get('X-Forwarded-Proto'),
                 request.get_host(),
                 request.get_full_path()
             )
