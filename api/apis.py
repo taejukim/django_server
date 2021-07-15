@@ -27,8 +27,8 @@ def method_path_test(request, url_path=None):
     if url_path or 'path' in request.path:
         retv['path'] = request.path
         retv['url'] = '{}://{}{}'.format(
-                request.META.get('wsgi.url_scheme'),
-                request.META.get('HTTP_HOST'),
+                request.header.get('X-Forwarded-Proto'),
+                request.get_host(),
                 request.get_full_path()
             )
         retv['title'] = "API URL Path Test"
