@@ -26,6 +26,11 @@ def method_path_test(request, url_path=None):
     }
     if url_path or 'path' in request.path:
         retv['path'] = request.path
+        retv['url'] = '{}://{}{}'.format(
+                request.scheme,
+                request.get_host(),
+                request.get_full_path()
+            )
         retv['title'] = "API URL Path Test"
         retv['body'] = "API URL Path Test Page"
     resp = JsonResponse(retv)
