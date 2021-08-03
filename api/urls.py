@@ -24,6 +24,7 @@ from api.views import hmac_client, server_health_adjust, server_health_api
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
     path('method', method_path_test), # api/method
+    path('method/', method_path_test), # api/method
     path('history', api_history), # api/history
     path('path/<path:url_path>', method_path_test), # api/path/path/to/test/any/path
     path('path', method_path_test), # api/path
