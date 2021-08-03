@@ -39,7 +39,7 @@ def get_hooks(app_key, signature, product_name):
         return JsonResponse(response_formatter(resp))
     except:
         resp = {
-            'appKey':app_key,
+            'app_key':app_key,
             'signature':signature,
             'product_name':product_name,
             'messages':'Can not find webhook request.'
