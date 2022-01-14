@@ -35,7 +35,7 @@ def get_hooks(app_key, signature, product_name):
             ).last()    
         resp = model_to_dict(hook)
         resp.pop('id')
-        hook.delete()
+        # hook.delete()
         return JsonResponse(response_formatter(resp))
     except:
         resp = {
