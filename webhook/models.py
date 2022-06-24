@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Hooks(models.Model):
+    id = models.BigAutoField(primary_key=True)
     product_name = models.CharField(max_length=100, blank=True, null=True)
     signature = models.CharField(max_length=100, blank=True, null=True)
     hooks_id = models.CharField(max_length=255, blank=True, null=True)

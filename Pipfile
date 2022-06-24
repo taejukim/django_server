@@ -15,6 +15,9 @@ markdown = "*"
 django-filter = "*"
 drf-yasg = "*"
 flex = "*"
+django-extensions = "*"
+ipython = "*"
+pyyaml = "*"
 
 [dev-packages]
 
