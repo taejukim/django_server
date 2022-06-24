@@ -13,6 +13,9 @@ class Hooks(models.Model):
     body = models.JSONField()
     created = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return '{}-{}'.format(self.product_name, self.signature)
+    
 '''    
 POST / HTTP/1.1
 Host: ktb.requestcatcher.com
