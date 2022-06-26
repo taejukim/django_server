@@ -7,6 +7,7 @@ class Messages(models.Model):
     signature = models.CharField(max_length=100, blank=True, null=True)
     app_key = models.CharField(max_length=50, blank=True, null=True)
     send_no = models.CharField(max_length=100, blank=True, null=True)
+    receipent_no = models.CharField(max_length=100, blank=True, null=True)
     test_name = models.CharField(max_length=255, blank=True, null=True)
     message_type = models.CharField(max_length=10, blank=True, null=True)
     message = models.TextField()
