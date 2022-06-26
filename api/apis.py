@@ -35,7 +35,7 @@ def method_path_test(request, url_path=None):
         retv['body'] = "API URL Path Test Page"
         
     resp = JsonResponse(retv)
-    retv['header']['responseHeaders'] = dict(resp._headers)
+    retv['header']['responseHeaders'] = dict(resp.headers)
     return JsonResponse(retv)
 
 
