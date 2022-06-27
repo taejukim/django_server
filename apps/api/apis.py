@@ -5,10 +5,10 @@ from django.views.decorators.csrf import csrf_exempt
 import os
 import time
 import xmltodict
-from api.references import status_code, html
-from api.models import ServerStatus
+from apps.api.references import status_code, html
+from apps.api.models import ServerStatus
 from datetime import datetime
-from api.models import APIHistory
+from apps.api.models import APIHistory
 
 @csrf_exempt
 def method_path_test(request, url_path=None):
@@ -143,7 +143,11 @@ def contents_type_test(request):
     return JsonResponse(retv(False, 'Contents Type을 확인해주세요.'))
 
 def server_failure(request):
-    status = ServerStatus.objects.get(id=1) 
+    try:
+        status = ServerStatus.objects.get(id=1) 
+    except ServerStatus.DoesNotExist:
+        return JsonResponse(retv(False, '서버 장애 초기설정이 되어 있지 않습니다. Admin에서 장애 상태를 추가해주세요.'))
+
     types = status.types
     delay_time = status.delay_time
     code = status.status_code

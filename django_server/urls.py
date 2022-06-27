@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from account import views
-from django.urls import path, include, re_path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.signin, name='signin'),
     path('modify', views.modify, name='modify'),
-    path('api/', include('api.urls'), name='api'),
-    path('webhook/', include('webhook.urls'), name='webhook'),
-    path('sms/', include('sms.urls'), name='sms'),
+    path('api/', include('apps.api.urls'), name='api'),
+    path('webhook/', include('apps.webhook.urls'), name='webhook'),
+    path('sms/', include('apps.sms.urls'), name='sms'),
 ]

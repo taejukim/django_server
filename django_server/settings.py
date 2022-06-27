@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os, json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '4-*=ebve7bl38hygj&i2w12sv!g6uspcs0s8$k75!2hqcnvuks'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+
+DEBUG = json.loads(os.environ['DEBUG'].lower()) \
+        if os.environ['DEBUG'] else True
 
 ALLOWED_HOSTS = ['localhost', 'web', '*']
 
@@ -37,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'api',
-    'webhook',
     'account',
-    'sms',
+    'apps.api',
+    'apps.webhook',
+    'apps.sms',
 ]
 
 MIDDLEWARE = [

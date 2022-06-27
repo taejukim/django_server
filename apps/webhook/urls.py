@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from webhook.views import hooks
+from apps.webhook.views import hooks
 
 
 urlpatterns = [

@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from api.apis import contents_type_test, delay_test,\
+from apps.api.apis import contents_type_test, delay_test,\
              method_path_test, status_test, multi_path_test, api_history, \
              server_failure, status_test_path, big_body, file_upload, big_body_url_path
-from api.views import hmac_client, server_health_adjust, server_health_api
+from apps.api.views import hmac_client, server_health_adjust, server_health_api
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),

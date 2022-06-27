@@ -10,8 +10,8 @@ import requests
 import json
 from base64 import b64encode
 from datetime import datetime, timedelta
-from api.models import ServerStatus
-from api import references
+from apps.api.models import ServerStatus
+from apps.api import references
 
 def hmac_client(request):
     template_name = 'hmac_client.html'

@@ -1,11 +1,11 @@
 from django.http.response import HttpResponse, JsonResponse
 
 from django.views.decorators.csrf import csrf_exempt
-from sms.models import Messages
+from apps.sms.models import Messages
 from django.forms.models import model_to_dict
 from django.db.models import Q
 import urllib
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta, timezone
 import yaml
 
 @csrf_exempt

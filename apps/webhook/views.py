@@ -1,6 +1,6 @@
 from django.http.response import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from webhook.models import Hooks
+from apps.webhook.models import Hooks
 from django.forms.models import model_to_dict
 from django.db.models import Q
 

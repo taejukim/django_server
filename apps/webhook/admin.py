@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webhook.models import Hooks
+from apps.webhook.models import Hooks
 
 class HooksAdmin(admin.ModelAdmin):
     list_display = ('product_name', 'signature', 'hooks_id', 'app_key', 'event','created')
