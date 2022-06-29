@@ -25,8 +25,8 @@ SECRET_KEY = '4-*=ebve7bl38hygj&i2w12sv!g6uspcs0s8$k75!2hqcnvuks'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = json.loads(os.environ['DEBUG'].lower()) \
-        if os.environ['DEBUG'] else True
+DEBUG = json.loads(os.environ.get('DEBUG').lower()) \
+        if os.environ.get('DEBUG') else True
 
 ALLOWED_HOSTS = ['localhost', 'web', '*']
 

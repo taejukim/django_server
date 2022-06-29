@@ -3,7 +3,9 @@ from django.shortcuts import render
 from django.contrib.auth import login, authenticate
 from django.urls import reverse
 from account.models import User
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def signin(request):
     user_info = User.objects.get(username="toast")
     if request.method == "POST":
@@ -21,7 +23,7 @@ def signin(request):
                 status = False
         return render(request, 'login.html', context={'status':status, 'pw':user_info.pw})
 
-
+@csrf_exempt
 def modify(request):
     if request.method == "POST":
         pw = request.POST['pw']

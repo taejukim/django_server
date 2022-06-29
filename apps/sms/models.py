@@ -34,4 +34,8 @@ n: {msg_type}-{test_name}-{env}
 k: {appkey}
 s: {signature}
 
+n: SMS-org.junit.jupiter.api.TestInfo-beta
+k: ZY2yHekeOeVNTmsV
+s:0629112825random String-94466879
+
 '''
