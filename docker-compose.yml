@@ -14,7 +14,7 @@ services:
         expose:
             - "4000"
     nginx:
-        image: nginx:latest
+        image: nginx:1.23.1
         ports:
             - "80:80"
             - "443:443"
