@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from django.views.generic import TemplateView
 from apps.api.apis import contents_type_test, delay_test,\
              method_path_test, status_test, multi_path_test, api_history, \
              server_failure, status_test_path, big_body, file_upload, big_body_url_path
 from apps.api.views import hmac_client, server_health_adjust, server_health_api
+
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
@@ -41,4 +44,4 @@ urlpatterns = [
     path('bigbody', big_body, name="bigbody"), # api/bigbody
     path('bigbody/<int:size>', big_body_url_path, name="bigbody"), # api/bigbody
     path('file-upload', file_upload, name="fileupload"), # api/file-upload
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
