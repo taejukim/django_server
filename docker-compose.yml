@@ -17,7 +17,7 @@ services:
     nginx:
         image: nginx:1.23.1
         ports:
-            - "80:80"
+            - "10082:80"
         volumes:
             - .:/django_server
             - ./config/nginx/:/etc/nginx/conf.d/
