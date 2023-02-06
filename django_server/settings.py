@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.api',
     'apps.webhook',
     'apps.sms',
+    'apps.testrail',
 ]
 
 MIDDLEWARE = [
