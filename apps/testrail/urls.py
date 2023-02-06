@@ -18,9 +18,6 @@ from apps.testrail.views import request_info, trackers, projects
 
 
 urlpatterns = [
-    path('', request_info),
-    path('trackers.json', trackers),
-    path('projects.json', projects),
     path('<path:url_path>', request_info),
 ]
 
