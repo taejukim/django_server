@@ -9,6 +9,7 @@ services:
             - DJANGO_SU_EMAIL=toast@nhntoast.com
             - DJANGO_SU_PASSWORD=test1234
             - DEBUG=False
+        container_name: redmine_django
         volumes:
             - .:/django_server
         expose:
@@ -22,5 +23,4 @@ services:
             - ./config/nginx/:/etc/nginx/conf.d/
         depends_on:
             - web
-        command : "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-   
+        container_name: redmine_nginx
