@@ -1,0 +1,18 @@
+{
+    "projects": [
+        {
+            "id": 1,
+            "name": "testrail",
+            "identifier": "testrail",
+            "description": "",
+            "status": 1,
+            "is_public": true,
+            "inherit_members": false,
+            "created_on": "2023-02-03T03:11:36Z",
+            "updated_on": "2023-02-03T03:11:36Z"
+        }
+    ],
+    "total_count": 1,
+    "offset": 0,
+    "limit": 25
+}

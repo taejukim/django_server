@@ -19,3 +19,7 @@ def trackers(request):
     backup_path = './apps/testrail/trackers.json'
     return HttpResponse(open(backup_path, 'r'),content_type = 'application/json; charset=utf8')
     
+def projects(request):
+    backup_path = './apps/testrail/projects.json'
+    return HttpResponse(open(backup_path, 'r'),content_type = 'application/json; charset=utf8')
+    
