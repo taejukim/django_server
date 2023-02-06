@@ -1,0 +1,64 @@
+{
+    "trackers": [
+        {
+            "id": 1,
+            "name": "결함",
+            "default_status": {
+                "id": 1,
+                "name": "신규"
+            },
+            "description": null,
+            "enabled_standard_fields": [
+                "assigned_to_id",
+                "category_id",
+                "fixed_version_id",
+                "parent_issue_id",
+                "start_date",
+                "due_date",
+                "estimated_hours",
+                "done_ratio",
+                "description"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "새기능",
+            "default_status": {
+                "id": 1,
+                "name": "신규"
+            },
+            "description": null,
+            "enabled_standard_fields": [
+                "assigned_to_id",
+                "category_id",
+                "fixed_version_id",
+                "parent_issue_id",
+                "start_date",
+                "due_date",
+                "estimated_hours",
+                "done_ratio",
+                "description"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "지원",
+            "default_status": {
+                "id": 1,
+                "name": "신규"
+            },
+            "description": null,
+            "enabled_standard_fields": [
+                "assigned_to_id",
+                "category_id",
+                "fixed_version_id",
+                "parent_issue_id",
+                "start_date",
+                "due_date",
+                "estimated_hours",
+                "done_ratio",
+                "description"
+            ]
+        }
+    ]
+}
