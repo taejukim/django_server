@@ -1,0 +1,21 @@
+{
+    "issue_categories": [
+        {
+            "id": 1,
+            "project": {
+                "id": 1,
+                "name": "testrail"
+            },
+            "name": "t1"
+        },
+        {
+            "id": 2,
+            "project": {
+                "id": 1,
+                "name": "testrail"
+            },
+            "name": "t2"
+        }
+    ],
+    "total_count": 2
+}

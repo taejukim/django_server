@@ -14,6 +14,9 @@ def request_info(request, url_path=None):
     elif url_path in "projects.json":
         backup_path = './apps/testrail/projects.json'
         return HttpResponse(open(backup_path, 'r'),content_type = 'application/json; charset=utf8')
+    elif url_path in 'issue_categories.json':
+        backup_path = './apps/testrail/issue_categories.json'
+        return HttpResponse(open(backup_path, 'r'),content_type = 'application/json; charset=utf8')
     else:
         new_req = RequestInfo(
             url = path,
