@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/', include('apps.api.urls'), name='api'),
     path('webhook/', include('apps.webhook.urls'), name='webhook'),
     path('sms/', include('apps.sms.urls'), name='sms'),
+    path('logs/', include('log_viewer.urls')),
 ]

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['localhost', 'web', '*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_light',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'log_viewer',
     'account',
     'apps.api',
     'apps.webhook',
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'request_logging.middleware.LoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'django_server.urls'
@@ -130,3 +133,89 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = 'static/'
+
+
+REQUEST_LOGGING_ENABLE_COLORIZE=False
+
+LOG_VIEWER_FILES_DIR = 'logs/'
+LOG_VIEWER_PAGE_LENGTH = 25
+LOG_VIEWER_PATTERNS = ['[INFO]', '[DEBUG]', '[WARNING]', '[ERROR]', '[CRITICAL]']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+
+    'formatters': {
+        'logfile': {
+            'format': '[%(levelname)s] [%(asctime)s] [%(name)s] %(message)s',
+            'datefmt': '%Y/%m/%d %H:%M:%S'
+        },
+
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[{server_time}] {message}',
+            'style': '{',
+        },
+
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+    },
+
+    'handlers': {
+        
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'file': {
+            'level': 'INFO',
+            'encoding': 'utf-8',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs/request.log',
+            'maxBytes': 1024*1024*5,  # 5 MB
+            'backupCount': 10,
+            'formatter': 'logfile',
+        },
+    },
+    # 로거
+    # 로그 레코드 저장소
+    # 로거를 이름별로 정의
+    'loggers': {
+        'django': {
+           'handlers': ['console', 'file'],
+           'level':'INFO',  
+        },
+
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+
+        'django.request': {
+            'handlers': ['console', 'file'],
+            'level':'INFO',
+            'propagate': False,
+        }
+    },
+}

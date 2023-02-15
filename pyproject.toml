@@ -8,8 +8,6 @@ authors = ["taeju.kim <iam@taeju.kim>"]
 python = "^3.9"
 Django = "^4.0.5"
 gunicorn = "^20.1.0"
-mysqlclient = "^2.1.1"
-pysqlite3 = "^0.4.7"
 xmltodict = "^0.13.0"
 Markdown = "^3.3.7"
 djangorestframework = "^3.13.1"
@@ -19,6 +17,9 @@ flex = "^6.14.1"
 django-extensions = "^3.1.5"
 ipython = "^8.4.0"
 PyYAML = "^6.0"
+django-log-viewer = "^1.1.7"
+django-request-logging = "^0.7.5"
+django-light = "^0.1.0.post3"
 
 [tool.poetry.dev-dependencies]
 
